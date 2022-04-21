@@ -7,13 +7,13 @@
 
     <!-- activity_main.xml에 보여질 할 일 목록의 개별 아이템을 설계한다. -->
     <TextView
-        android:id="@+id/tvTodoItem"
+        android:id="@+id/tv_todoItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="todo"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/tvTimeStamp"
-        app:layout_constraintEnd_toStartOf="@+id/cbCheck"
+        app:layout_constraintEnd_toStartOf="@+id/cb_check"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,12 +23,12 @@
         android:layout_height="wrap_content"
         android:text="TimeStamp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cbCheck"
+        app:layout_constraintEnd_toStartOf="@+id/cb_check"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTodoItem" />
+        app:layout_constraintTop_toBottomOf="@id/tv_todoItem" />
 
     <CheckBox
-        android:id="@+id/cbCheck"
+        android:id="@+id/cb_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
