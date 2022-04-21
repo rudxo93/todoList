@@ -12,7 +12,8 @@ class Todo (
     @ColumnInfo(name = "content") val content: String,
     @ColumnInfo(name = "timestamp") val timestamp: String,
     @ColumnInfo(name = "isChecked") var isChecked: Boolean
-): Serializable
+): Serializable {
+}
 
 /*
 * @Entitiy는 테이블 이름, @ColumnInfo는 컬럼에 들어갈 이름, @PrimaryKey는 기본키를 의미한다.
