@@ -14,6 +14,7 @@ import com.example.todolist.dto.Todo
 class TodoAdapter(val context: Context): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     private var list = mutableListOf<Todo>()
+    private lateinit var itemClickListner: ItemClickListener
 
     inner class TodoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -34,6 +35,10 @@ class TodoAdapter(val context: Context): RecyclerView.Adapter<TodoAdapter.TodoVi
 
             checkbox.setOnClickListener {
                 itemCheckBoxClickListener.onClick(it, layoutPosition, list[layoutPosition].id) // 체크박스의 상태에 따라 제목에 줄을 그어주기
+            }
+
+            itemView.setOnClickListener { //  onBind에서 클릭 감지
+                itemClickListner.onClick(it, layoutPosition, list[layoutPosition].id)
             }
         }
 
@@ -65,5 +70,14 @@ class TodoAdapter(val context: Context): RecyclerView.Adapter<TodoAdapter.TodoVi
 
     fun setItemCheckBoxClickListener(itemCheckBoxClickListener: ItemCheckBoxClickListener) {
         this.itemCheckBoxClickListener = itemCheckBoxClickListener
+    }
+
+    // onBind에서 클릭 감지
+    interface ItemClickListener {
+        fun onClick(view: View,  position: Int, itemId: Long)
+    }
+
+    fun setItemClickListener(itemClickListener: ItemClickListener) {
+        this.itemClickListner = itemClickListener
     }
 }
