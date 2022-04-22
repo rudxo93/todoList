@@ -3,9 +3,12 @@ package com.example.todolist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.todolist.adapter.TodoAdapter
 import com.example.todolist.databinding.ActivityMainBinding
 import com.example.todolist.dto.Todo
 import com.example.todolist.viewmodel.TodoViewModel
@@ -18,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     lateinit var todoViewModel: TodoViewModel
+    lateinit var todoAdapter: TodoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +30,30 @@ class MainActivity : AppCompatActivity() {
 
         todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
 
+        todoViewModel.todoList.observe(this) {
+            todoAdapter.update(it)
+        }
+
+        todoAdapter = TodoAdapter(this)
+        binding.rvTodoList.layoutManager = LinearLayoutManager(this)
+        binding.rvTodoList.adapter = todoAdapter
+
         binding.fabAdd.setOnClickListener {
             val intent = Intent(this, EditTodoActivity::class.java).apply {
                 putExtra("type", "ADD")
             }
             requestActivity.launch(intent)
         }
+
+        todoAdapter.setItemCheckBoxClickListener(object: TodoAdapter.ItemCheckBoxClickListener{ // checkbox의 클릭 이벤트를 처리
+            override fun onClick(view: View, position: Int, itemId: Long) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val todo = todoViewModel.getOne(itemId) // todoViewModel.getOne(itemId)를 통해 클릭된 아이템의 정보를 가져온다.
+                    todo.isChecked = !todo.isChecked // isChecked를 토글
+                    todoViewModel.update(todo)
+                }
+            }
+        })
 
     }
 
